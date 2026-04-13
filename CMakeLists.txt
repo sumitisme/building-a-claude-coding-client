@@ -10,7 +10,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 
 file(GLOB_RECURSE SOURCE_FILES src/*.cpp src/*.hpp)
 
-add_executable(claoude_code ${SOURCE_FILES})
+add_executable(claude_code ${SOURCE_FILES})
 add_executable(cpr REQUIRED)
 
 target_link_libraries(

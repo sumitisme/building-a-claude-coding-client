@@ -1,8 +1,4 @@
-# I'm not super good with shell scripts.
-# It's not finding the root file. I need to fix this else nth works. Will fix it later.
-
 #!/bin/bash
-
 set -e # stop if any errors
 
 cd "$(dirname "$0")" # This ensures that the stuff is ran at the directory where this script lives
@@ -16,3 +12,5 @@ cmake -G "Unix Makefiles" -B build -S . -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT/scri
 cmake --build ./build
 
 ./build/claude-code "$@"
+
+# I suck at shell scripts

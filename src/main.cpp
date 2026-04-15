@@ -1,5 +1,6 @@
 // main code for the claude clone made using openrouterapi
 // environmental variables =>   OPENROUTER_API_KEY
+//                              OPENROUTER_BASE_URL (optional)
 //                              VCPKG_ROOT
 
 #include <cstdlib> // for stuff like getenv
@@ -23,7 +24,8 @@ int main(int argc, char* argv[]) {
 
     std::string prompt = argv[2];
 
-    if (prompt == "") { // using prompt.empty() also works here        std::cout << "no prompt given\n";
+    if (prompt == "") { // using prompt.empty() also works here        
+        std::cout << "no prompt given\n";
         return -2;
     }
 

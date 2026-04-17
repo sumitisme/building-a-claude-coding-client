@@ -44,12 +44,29 @@ int main(int argc, char* argv[]) {
         return -3;
     }
 
-    // Making a dictionary to initialize the model used and the messaging format
+    // Setting up the model used, the roles and the tools (Read only for now)
     json request_body = {
         {"model", "anthropic/claude-haiku-4.5"},
         {"messages", json::array({
             {{"role", "user"}, {"content", prompt}}
-        })}
+        })},
+        {"tools", json::array({{
+            {"type", "function"},
+            {"function", {
+                {"name", "Read"},
+                {"description", "Read and return the contents of a file"},
+                {"parameters", {
+                    {"type", "object"},
+                    {"properties", {
+                        {"file_path", {
+                            {"type", "string"},
+                            {"description", "The path to the file to read"}
+                        }}
+                    }},
+                    {"required", json::array({"file_path"})}
+                }}
+            }}
+        }})}
     };
 
     // http request made using cpr::Post

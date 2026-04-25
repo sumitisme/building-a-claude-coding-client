@@ -1,9 +1,10 @@
-// main code for the claude clone made using openrouterapi
+// main code for the claude code client made using openrouterapi
 // environmental variables =>   OPENROUTER_API_KEY
 //                              OPENROUTER_BASE_URL (optional)
 //                              VCPKG_ROOT
 
 #include <cstdlib> // for stuff like getenv
+#include <fstream>
 #include <iostream>
 #include <string>
 
@@ -93,7 +94,29 @@ int main(int argc, char* argv[]) {
         return -5;
     }
 
-    std::cout << result["choices"][0]["message"]["content"].get<std::string> << std::endl; // using get<std::string> to remove all the quotations
+//  std::cout << result["choices"][0]["message"]["content"].get<std::string> << std::endl; // using get<std::string> to remove all the quotations
+
+
+    // implementing tool calls here
+    auto message = result["choices"][0]["message"];
+
+    if(message.contains("tool_calls") && !message["tool_calls"].empty()) {
+        auto tool_call = message["tools_calls"][0];
+
+        std::string arguments_str = tool_call["function"]["arguments"].get<std::string>();
+
+        json arguments = json::parse(arguments_str);
+
+        std::string file_path = arguments["file_path"].get<std::string>();
+
+        std::ifstream file(file_path);
+        std::string content((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+
+        std::cout << content;
+    }
+    else {
+        std::cout << result["choices"][0]["message"]["content"].get<std::string>();
+    }
 
     return 0;
 }
